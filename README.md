@@ -2,7 +2,7 @@
  
 > Planning & Continuous Improvement · Business Intelligence · Digitalizzazione Processi & AI
  
-🌐 **[Visita il sito → Emanuele Cazzola — Portfolio]((https://1emanuele.github.io/Portfolio/))**
+🌐 **[Visita il sito → Emanuele Cazzola — Portfolio](https://1emanuele.github.io/Portfolio/)**
  
 ---
  
