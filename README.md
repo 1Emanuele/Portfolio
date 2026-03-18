@@ -20,7 +20,7 @@ Ho progettato soluzioni digitali end-to-end — dalla web app alla gestione remo
 | Area | Strumenti |
 |------|-----------|
 | 📊 Business Intelligence | Excel Avanzato · MS Project · Power BI |
-| 🐍 Sviluppo | Python · HTML · VS Code |
+| 🐍 Sviluppo | Python · HTML · VS Code · Android Studio |
 | 📡 Sistemi & IoT | MDM · Raspberry Pi · Digital Signage · Kiosk Mode |
 | 🏭 Processi | Lean Six Sigma · ERP LogyPlan · Arena Simulation · EN9100 |
 | 🤖 AI Tools | AI generativa applicata a sviluppo, analisi dati e problem solving |
@@ -31,9 +31,9 @@ Ho progettato soluzioni digitali end-to-end — dalla web app alla gestione remo
  
 **Sistema Web-Kiosk & Digital Signage Aziendale**  
 Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione:
-- Web app (Python + HTML) su tablet in modalità kiosk
-- Sistema MDM per gestione e aggiornamento remoto della flotta dispositivi
-- Digital signage su Raspberry Pi 4 per comunicazione interna
+- Web app (Python + HTML + SQL) su tablet in modalità kiosk
+- Sistema MDM per gestione e aggiornamento remoto della flotta dispositivi (Kotlin)
+- Digital signage su Raspberry Pi 4 per comunicazione interna (Python + HMTL)
 - Interfaccia UX-oriented pensata per gli operatori di produzione
  
 ---
