@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emanuele Cazzola — Planning & Digital Innovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --bg2: #141518;
+    --bg3: #1c1e22;
+    --border: #2a2d33;
+    --accent: #e8f04a;
+    --accent2: #4af0c8;
+    --text: #e8e9eb;
+    --muted: #6b6f7a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(14,15,17,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    padding: 6rem 3rem 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-name span {
+    display: block;
+    color: var(--accent);
+  }
+
+  .hero-role {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 380px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-ghost {
+    border-color: var(--border);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: var(--text);
+  }
+
+  .hero-right {
+    padding: 6rem 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+  }
+
+  .stat-row {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideIn 0.5s forwards;
+  }
+
+  .stat-row:nth-child(1) { animation-delay: 0.2s; }
+  .stat-row:nth-child(2) { animation-delay: 0.35s; }
+  .stat-row:nth-child(3) { animation-delay: 0.5s; }
+  .stat-row:nth-child(4) { animation-delay: 0.65s; }
+  .stat-row:nth-child(5) { animation-delay: 0.8s; }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .stat-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .stat-value.accent { color: var(--accent); }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 3rem;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* PROFILO */
+  .profilo-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #c5c7cc;
+    max-width: 720px;
+    margin-bottom: 3rem;
+  }
+
+  .profilo-text strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .tag:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-left: 2rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 8px;
+    width: 8px; height: 8px;
+    border: 1px solid var(--accent);
+    background: var(--bg);
+    transform: rotate(45deg);
+  }
+
+  .timeline-item.current::before {
+    background: var(--accent);
+  }
+
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .timeline-role {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--text);
+  }
+
+  .timeline-company {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.88rem;
+    color: #9ea1aa;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .timeline-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-block {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+
+  .skill-block:hover { background: var(--bg3); }
+
+  .skill-block-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .skill-item {
+    margin-bottom: 0.9rem;
+  }
+
+  .skill-item-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+  }
+
+  .skill-name {
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  .skill-level {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .skill-bar {
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .skill-bar-fill.accent2 { background: var(--accent2); }
+
+  /* CERT GRID */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .cert-item {
+    background: var(--bg2);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+
+  .cert-item:hover { background: var(--bg3); }
+
+  .cert-year {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .cert-name {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  /* FORMAZIONE */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .edu-item {
+    background: var(--bg2);
+    padding: 2.5rem;
+  }
+
+  .edu-degree {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .edu-school {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent2);
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-period {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .edu-note {
+    font-size: 0.82rem;
+    color: #9ea1aa;
+    line-height: 1.6;
+  }
+
+  /* CONTATTI */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .contact-item {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+
+  .contact-item:hover { background: var(--bg3); }
+
+  .contact-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-value {
+    font-size: 0.9rem;
+    color: var(--text);
+    word-break: break-all;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* SCROLL ANIMATION */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { border-right: none; padding: 5rem 1.5rem 2rem; }
+    .hero-right { padding: 2rem 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .skills-grid, .cert-grid, .contact-grid, .edu-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">EC // Portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#profilo">Profilo</a></li>
+    <li><a href="#esperienze">Esperienze</a></li>
+    <li><a href="#competenze">Competenze</a></li>
+    <li><a href="#formazione">Formazione</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Ingegnere Gestionale · Ticino (CH)</div>
+    <h1 class="hero-name">
+      Emanuele
+      <span>Cazzola</span>
+    </h1>
+    <p class="hero-role">
+      Planning & Continuous Improvement<br>
+      Business Intelligence · Python · Power BI<br>
+      Digitalizzazione Processi & AI
+    </p>
+    <div class="hero-cta">
+      <a href="#esperienze" class="btn">Scopri il percorso</a>
+      <a href="#contatti" class="btn btn-ghost">Contattami</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-row">
+      <span class="stat-label">Ruolo attuale</span>
+      <span class="stat-value">Planning Specialist & CI</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Azienda</span>
+      <span class="stat-value">Lemco Precision, Bioggio</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Formazione</span>
+      <span class="stat-value">Bachelor Ing. Gestionale — SUPSI</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Stack principale</span>
+      <span class="stat-value accent">Python · Power BI · MDM</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Certificazioni</span>
+      <span class="stat-value">7 ottenute</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILO -->
+<section id="profilo">
+  <div class="section-header reveal">
+    <span class="section-number">01</span>
+    <h2 class="section-title">Profilo</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="profilo-text reveal">
+    Sono un Ingegnere Gestionale con un profilo ibrido tra <strong>pianificazione industriale</strong>, 
+    miglioramento continuo e sviluppo software applicato ai processi. Non mi fermo all'analisi: 
+    <strong>costruisco gli strumenti per migliorare davvero</strong>. Ho progettato soluzioni digitali 
+    end-to-end — dalla web app alla gestione remota dell'hardware — con un approccio orientato ai dati 
+    e all'efficienza operativa. Utilizzo l'<strong>intelligenza artificiale</strong> come moltiplicatore 
+    di competenze: la padronanza degli strumenti AI generativa fa parte del mio metodo di lavoro 
+    quotidiano. Credo che il futuro dell'industria passi dalla capacità di unire 
+    <strong>competenze gestionali e tecniche</strong>.
+  </p>
+  <div class="tags reveal">
+    <span class="tag">Lean Six Sigma</span>
+    <span class="tag">EN9100</span>
+    <span class="tag">Product Owner</span>
+    <span class="tag">UX Design</span>
+    <span class="tag">IoT & MDM</span>
+    <span class="tag">Digital Signage</span>
+    <span class="tag">Data Analysis</span>
+    <span class="tag">Process Automation</span>
+    <span class="tag">AI Tools</span>
+    <span class="tag">ERP LogyPlan</span>
+    <span class="tag">Continuous Improvement</span>
+    <span class="tag">KPI Management</span>
+  </div>
+</section>
+
+<!-- ESPERIENZE -->
+<section id="esperienze">
+  <div class="section-header reveal">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Esperienze</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item current reveal">
+      <div class="timeline-period">Aprile 2025 — Presente</div>
+      <div class="timeline-role">Planning Specialist & Continuous Improvement</div>
+      <div class="timeline-company">Lemco Precision — Bioggio (CH)</div>
+      <ul class="timeline-bullets">
+        <li>Sviluppato web app (Python + HTML) per raccolta digitale dei dati di produzione su tablet in modalità kiosk, eliminando la documentazione cartacea e centralizzando le informazioni operative</li>
+        <li>Progettato e distribuito un sistema MDM per la gestione remota centralizzata della flotta di tablet, con aggiornamenti e controllo da remoto</li>
+        <li>Realizzato sistema di digital signage su Raspberry Pi 5 per la comunicazione interna in reparto</li>
+        <li>Interfaccia utente progettata con approccio UX-oriented per garantire semplicità massima agli operatori</li>
+        <li>Definito e monitorato KPI di processo con ruolo di Product Owner; analisi dati con Power BI ed Excel Avanzato</li>
+        <li>Contribuito alla documentazione e formazione per la certificazione EN9100</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-period">Gennaio 2024 — Aprile 2025</div>
+      <div class="timeline-role">Planning Specialist</div>
+      <div class="timeline-company">Lemco Precision — Bioggio (CH)</div>
+      <ul class="timeline-bullets">
+        <li>Pianificazione della produzione e monitoraggio avanzamento ordini (OTD)</li>
+        <li>Gestione dati e reportistica per il monitoraggio delle performance operative con ERP LogyPlan</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-period">Settembre 2022 — Gennaio 2024</div>
+      <div class="timeline-role">Process Technician · Stage</div>
+      <div class="timeline-company">Carlisle Interconnect Technologies — Bioggio (CH)</div>
+      <ul class="timeline-bullets">
+        <li>Supporto tecnico-operativo ai processi di produzione in contesto aerospace</li>
+        <li>Stage orientato all'apprendimento tecnico e ai processi produttivi industriali</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPETENZE -->
+<section id="competenze">
+  <div class="section-header reveal">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Competenze</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal" id="skillsGrid">
+
+    <div class="skill-block">
+      <div class="skill-block-title">Business Intelligence</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Microsoft Power BI</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Excel Avanzato</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Microsoft Project</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-title">Sviluppo & Digital</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Python</span><span class="skill-level">Intermedio+</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="72"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">HTML / Web App</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="65"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">MDM & IoT (RPi, Kiosk)</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="60"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">AI Tools (Generativa)</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="85"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-title">Gestione & Processi</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">ERP LogyPlan</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Lean Six Sigma</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="68"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Arena Simulation</span><span class="skill-level">Base+</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="50"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">CAD / NX</span><span class="skill-level">Base</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="40"></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FORMAZIONE -->
+<section id="formazione">
+  <div class="section-header reveal">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Formazione</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-item">
+      <div class="edu-degree">Bachelor in Ingegneria Gestionale</div>
+      <div class="edu-school">SUPSI — Scuola Univ. Prof. della Svizzera Italiana</div>
+      <div class="edu-period">2021 — 2024</div>
+      <div class="edu-note">Tesi pratica aziendale: "Definizione di un sistema di KPI per la certificazione EN9100" — svolta presso Lemco Precision, Bioggio.</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-degree">Diploma Baccalaureato Europeo</div>
+      <div class="edu-school">Scuola Europea — Varese (IT)</div>
+      <div class="edu-period">2007 — 2015</div>
+      <div class="edu-note">Percorso di studi internazionale con diploma riconosciuto in tutti i paesi dell'Unione Europea.</div>
+    </div>
+  </div>
+
+  <!-- CERTIFICAZIONI -->
+  <div class="section-header reveal" style="margin-top: 3rem;">
+    <span class="section-number">04b</span>
+    <h2 class="section-title" style="font-size:1.3rem;">Certificazioni</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="cert-grid reveal">
+    <div class="cert-item"><span class="cert-year">2025</span><span class="cert-name">Power BI Training</span></div>
+    <div class="cert-item"><span class="cert-year">2025</span><span class="cert-name">Certificato Samaritano</span></div>
+    <div class="cert-item"><span class="cert-year">2024</span><span class="cert-name">Attestato di Formazione EN9100</span></div>
+    <div class="cert-item"><span class="cert-year">2023</span><span class="cert-name">Data Science with Python</span></div>
+    <div class="cert-item"><span class="cert-year">2023</span><span class="cert-name">Elements of AI — Università di Helsinki</span></div>
+    <div class="cert-item"><span class="cert-year">2022</span><span class="cert-name">Lean Six Sigma White Belt</span></div>
+    <div class="cert-item"><span class="cert-year">2021</span><span class="cert-name">Google Digital Marketing (Fondamenti)</span></div>
+  </div>
+</section>
+
+<!-- LINGUE -->
+<section>
+  <div class="section-header reveal">
+    <span class="section-number">05</span>
+    <h2 class="section-title">Lingue</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal" style="grid-template-columns: 1fr 1fr;">
+    <div class="skill-block">
+      <div class="skill-block-title">Italiano</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Madrelingua</span><span class="skill-level">C2</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="100"></div></div>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">Inglese</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Avanzato</span><span class="skill-level">C1</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="82"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATTI -->
+<section id="contatti">
+  <div class="section-header reveal">
+    <span class="section-number">06</span>
+    <h2 class="section-title">Contatti</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-item">
+      <div class="contact-label">Telefono</div>
+      <div class="contact-value">+39 345 8096370</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-value">emanuelecazzola97@gmail.com</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Posizione</div>
+      <div class="contact-value">Cadegliano-Viconago (VA) · Ticino (CH)</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">LinkedIn</div>
+      <div class="contact-value" style="color: var(--accent2)">[il-tuo-url]</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Disponibilità</div>
+      <div class="contact-value">Ticino (CH) · Nord Italia</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Patente</div>
+      <div class="contact-value">B · Automunito</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Emanuele Cazzola</span>
+  <span>Planning · BI · Digital Innovation</span>
+  <span>Ticino, CH</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = (i * 0.05) + 's';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Skill bars animation
+  const skillObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+        skillObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.skills-grid').forEach(g => skillObserver.observe(g));
+</script>
+</body>
+</html>
