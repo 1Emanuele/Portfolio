@@ -7,49 +7,87 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* ── DARK THEME (default) ─────────────────────────── */
   :root {
-    --bg: #0e0f11;
-    --bg2: #141518;
-    --bg3: #1c1e22;
-    --border: #2a2d33;
-    --accent: #e8f04a;
-    --accent2: #4af0c8;
-    --text: #ffffff;
+    --bg:        #0e0f11;
+    --bg2:       #141518;
+    --bg3:       #1c1e22;
+    --border:    #2a2d33;
+    --accent:    #e8f04a;
+    --accent2:   #4af0c8;
+    --text:      #ffffff;
     --text-body: #e2e4e9;
-    --muted: #a1a1aa;
+    --muted:     #a1a1aa;
     --mono: 'Space Mono', monospace;
     --sans: 'Syne', sans-serif;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --nav-bg: rgba(14,15,17,0.88);
+  }
+
+  /* ── LIGHT THEME ──────────────────────────────────── */
+  :root.light {
+    --bg:        #f5f4f0;
+    --bg2:       #ffffff;
+    --bg3:       #ece9e2;
+    --border:    #d8d5cd;
+    --accent:    #1a5c8b;
+    --accent2:   #0a8c6e;
+    --text:      #0f0f0d;
+    --text-body: #3d3b37;
+    --muted:     #7a786f;
+    --shadow: 0 4px 24px rgba(0,0,0,0.10);
+    --nav-bg: rgba(245,244,240,0.92);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text-body); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--text-body); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
+  /* noise — only dark */
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+    transition: opacity 0.3s;
   }
+  :root.light body::before { opacity: 0; }
 
+  /* ── NAV ─────────────────────────────────────────── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 3rem;
-    background: rgba(14,15,17,0.85);
-    backdrop-filter: blur(12px);
+    padding: 0 2.5rem; height: 64px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
   }
   .nav-logo { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { font-family: var(--mono); font-size: 0.7rem; color: var(--text-body); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover { color: var(--accent); }
 
-  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; }
-  .hero-left { padding: 6rem 3rem 4rem 3rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); }
+  .nav-controls { display: flex; align-items: center; gap: 0.5rem; }
+
+  .ctrl-btn {
+    font-family: var(--mono);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .ctrl-btn:hover, .ctrl-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* ── HERO ────────────────────────────────────────── */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 64px; }
+  .hero-left { padding: 6rem 3rem 4rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--border); }
   .hero-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
   .hero-tag::before { content: ''; display: inline-block; width: 20px; height: 2px; background: var(--accent); }
   .hero-name { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text); }
@@ -74,31 +112,60 @@
   .stat-value { font-size: 1rem; font-weight: 600; color: var(--text); }
   .stat-value.accent { color: var(--accent); }
 
-  section { padding: 8rem 3rem; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+  /* ── SECTIONS ────────────────────────────────────── */
+  section { padding: 7rem 3rem; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
   .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 4rem; }
   .section-number { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; font-weight: 700; }
   .section-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
   .section-line { flex: 1; height: 1px; background: var(--border); }
 
-  .profilo-text { font-size: 1.15rem; line-height: 1.8; color: var(--text-body); max-width: 720px; margin-bottom: 3rem; }
+  /* ── PROFILO ─────────────────────────────────────── */
+  .profilo-text { font-size: 1.1rem; line-height: 1.9; color: var(--text-body); max-width: 720px; margin-bottom: 3rem; }
   .profilo-text strong { color: var(--accent); font-weight: 700; }
 
   .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .tag { font-family: var(--mono); font-size: 0.65rem; padding: 0.35rem 0.85rem; border: 1px solid var(--border); color: var(--text-body); letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; background: var(--bg2); }
   .tag:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
+  /* ── PROGETTO ────────────────────────────────────── */
+  .project-card {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 0;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s;
+  }
+  .project-card:hover { box-shadow: var(--shadow); }
+  .project-body { padding: 2.5rem; border-right: 1px solid var(--border); }
+  .project-chip { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+  .project-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 0.8rem; letter-spacing: -0.01em; line-height: 1.2; }
+  .project-desc { font-size: 0.88rem; line-height: 1.8; color: var(--text-body); margin-bottom: 1.2rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-tag { font-family: var(--mono); font-size: 0.6rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+  .project-metrics { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; gap: 0; }
+  .metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+  .metric-row:first-child { border-top: 1px solid var(--border); }
+  .metric-key { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .metric-val { font-size: 1.1rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; font-family: var(--sans); }
+  .metric-val.sm { font-size: 0.82rem; font-weight: 600; color: var(--accent2); }
+
+  /* ── TIMELINE ────────────────────────────────────── */
   .timeline { position: relative; padding-left: 2rem; }
   .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 0; width: 2px; background: var(--border); }
   .timeline-item { position: relative; margin-bottom: 4rem; padding-left: 2rem; }
-  .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 8px; width: 10px; height: 10px; border: 2px solid var(--accent); background: var(--bg); transform: translateX(-4px) rotate(45deg); z-index: 2; }
+  .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 8px; width: 10px; height: 10px; border: 2px solid var(--accent); background: var(--bg); transform: translateX(-4px) rotate(45deg); z-index: 2; transition: background 0.3s; }
   .timeline-item.current::before { background: var(--accent); }
   .timeline-period { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.4rem; text-transform: uppercase; font-weight: 700; }
   .timeline-role { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text); }
   .timeline-company { font-family: var(--mono); font-size: 0.8rem; color: var(--accent2); margin-bottom: 1.2rem; font-weight: 600; }
   .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-  .timeline-bullets li { font-size: 0.95rem; color: var(--text-body); padding-left: 1.2rem; position: relative; line-height: 1.6; }
+  .timeline-bullets li { font-size: 0.92rem; color: var(--text-body); padding-left: 1.2rem; position: relative; line-height: 1.65; }
   .timeline-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 900; }
 
+  /* ── SKILLS ──────────────────────────────────────── */
   .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .skill-block { background: var(--bg2); padding: 2.5rem; transition: background 0.2s; }
   .skill-block:hover { background: var(--bg3); }
@@ -106,117 +173,175 @@
   .skill-item { margin-bottom: 1.1rem; }
   .skill-item-top { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
   .skill-name { font-size: 0.88rem; color: var(--text); font-weight: 500; }
-  .skill-level { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
-  .skill-bar { height: 3px; background: #2a2d33; position: relative; overflow: hidden; }
+  .skill-level { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); text-transform: uppercase; }
+  .skill-bar { height: 3px; background: var(--border); overflow: hidden; }
   .skill-bar-fill { height: 100%; background: var(--accent); width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
   .skill-bar-fill.accent2 { background: var(--accent2); }
 
-  .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-  .cert-item { background: var(--bg2); padding: 1.8rem; display: flex; gap: 1rem; align-items: center; transition: background 0.2s; }
+  /* ── CERT ────────────────────────────────────────── */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 3rem; }
+  .cert-item { background: var(--bg2); padding: 1.6rem; display: flex; gap: 1rem; align-items: center; transition: background 0.2s; }
   .cert-item:hover { background: var(--bg3); }
   .cert-year { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; font-weight: 700; }
-  .cert-name { font-size: 0.9rem; color: var(--text); line-height: 1.4; font-weight: 500; }
+  .cert-name { font-size: 0.88rem; color: var(--text); line-height: 1.4; font-weight: 500; }
 
+  /* ── EDU ─────────────────────────────────────────── */
   .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2rem; }
   .edu-item { background: var(--bg2); padding: 3rem; }
-  .edu-degree { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
-  .edu-school { font-family: var(--mono); font-size: 0.8rem; color: var(--accent2); margin-bottom: 0.3rem; font-weight: 600; }
-  .edu-period { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 1.2rem; }
-  .edu-note { font-size: 0.9rem; color: var(--text-body); line-height: 1.6; }
+  .edu-degree { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+  .edu-school { font-family: var(--mono); font-size: 0.78rem; color: var(--accent2); margin-bottom: 0.3rem; font-weight: 600; }
+  .edu-period { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-bottom: 1rem; }
+  .edu-note { font-size: 0.88rem; color: var(--text-body); line-height: 1.65; }
+
+  /* ── CTA BANNER & CONTACT ────────────────────────── */
+  .cta-banner {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 3.5rem 4rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--accent);
+  }
+  .cta-banner:hover {
+    border-color: var(--accent);
+  }
+  .cta-text h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .cta-text p {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    max-width: 500px;
+  }
 
   .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .contact-item { background: var(--bg2); padding: 2.5rem; transition: background 0.2s; }
   .contact-item:hover { background: var(--bg3); }
-  .contact-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
-  /* FIX word-break: no spezzatura arbitraria delle parole */
+  .contact-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
   .contact-value { font-size: 0.95rem; color: var(--text); word-break: normal; overflow-wrap: break-word; font-weight: 600; }
+  .contact-value a { color: var(--accent2); text-decoration: none; }
+  .contact-value a:hover { text-decoration: underline; }
 
-  footer { border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; }
-  footer span { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
+  /* ── FOOTER ──────────────────────────────────────── */
+  footer { border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+  footer span { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  /* ── REVEAL ──────────────────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
+  /* ── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 900px) {
+    .project-card { grid-template-columns: 1fr; }
+    .project-body { border-right: none; border-bottom: 1px solid var(--border); }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .cta-banner { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
+  }
   @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
+    nav { padding: 0 1.2rem; }
     .nav-links { display: none; }
     .hero { grid-template-columns: 1fr; }
     .hero-left { border-right: none; padding: 5rem 1.5rem 2rem; }
     .hero-right { padding: 2rem 1.5rem; }
     section { padding: 4rem 1.5rem; }
-    .skills-grid, .cert-grid, .contact-grid, .edu-grid { grid-template-columns: 1fr; }
+    .skills-grid, .cert-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo">EC // Portfolio</div>
   <ul class="nav-links">
-    <li><a href="#profilo">Profilo</a></li>
-    <li><a href="#esperienze">Esperienze</a></li>
-    <li><a href="#competenze">Competenze</a></li>
-    <li><a href="#formazione">Formazione</a></li>
-    <li><a href="#contatti">Contatti</a></li>
+    <li><a href="#profilo" data-it="Profilo" data-en="About">Profilo</a></li>
+    <li><a href="#progetto" data-it="Progetto" data-en="Project">Progetto</a></li>
+    <li><a href="#esperienze" data-it="Esperienza" data-en="Experience">Esperienza</a></li>
+    <li><a href="#competenze" data-it="Competenze" data-en="Skills">Competenze</a></li>
+    <li><a href="#formazione" data-it="Formazione" data-en="Education">Formazione</a></li>
+    <li><a href="#contatti" data-it="Contatti" data-en="Contact">Contatti</a></li>
   </ul>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀️</button>
+  </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-tag">Ingegnere Gestionale · Ticino (CH)</div>
+    <div class="hero-tag" data-it="Ingegnere Gestionale · Ticino (CH)" data-en="Management Engineer · Ticino (CH)">Ingegnere Gestionale · Ticino (CH)</div>
     <h1 class="hero-name">
       Emanuele
       <span>Cazzola</span>
     </h1>
-    <p class="hero-role">
+    <p class="hero-role" data-it="Planning & Continuous Improvement<br>Business Intelligence · Python · Power BI<br>Digitalizzazione Processi & AI" data-en="Planning & Continuous Improvement<br>Business Intelligence · Python · Power BI<br>Process Digitalization & AI">
       Planning & Continuous Improvement<br>
       Business Intelligence · Python · Power BI<br>
       Digitalizzazione Processi & AI
     </p>
     <div class="hero-cta">
-      <a href="#esperienze" class="btn">Scopri il percorso</a>
-      <a href="#contatti" class="btn btn-ghost">Contattami</a>
+      <a href="#esperienze" class="btn" data-it="Scopri il percorso" data-en="See my journey">Scopri il percorso</a>
+      <a href="#contatti" class="btn btn-ghost" data-it="Contattami" data-en="Get in touch">Contattami</a>
     </div>
   </div>
   <div class="hero-right">
     <div class="stat-row">
-      <span class="stat-label">Ruolo attuale</span>
-      <span class="stat-value">Planning Specialist & CI</span>
+      <span class="stat-label" data-it="Ruolo attuale" data-en="Current role">Ruolo attuale</span>
+      <span class="stat-value" data-it="Planning Specialist & CI" data-en="Planning Specialist & CI">Planning Specialist & CI</span>
     </div>
     <div class="stat-row">
-      <span class="stat-label">Azienda</span>
+      <span class="stat-label" data-it="Azienda" data-en="Company">Azienda</span>
       <span class="stat-value">Lemco Precision, Bioggio</span>
     </div>
     <div class="stat-row">
-      <span class="stat-label">Formazione</span>
-      <span class="stat-value">Bachelor Ing. Gestionale — SUPSI</span>
+      <span class="stat-label" data-it="Formazione" data-en="Education">Formazione</span>
+      <span class="stat-value" data-it="Bachelor Ing. Gestionale — SUPSI" data-en="BSc Management Engineering — SUPSI">Bachelor Ing. Gestionale — SUPSI</span>
     </div>
     <div class="stat-row">
-      <span class="stat-label">Stack principale</span>
+      <span class="stat-label" data-it="Stack principale" data-en="Main stack">Stack principale</span>
       <span class="stat-value accent">Excel · Power BI · Python</span>
     </div>
     <div class="stat-row">
-      <span class="stat-label">Certificazioni</span>
-      <span class="stat-value">7 ottenute</span>
+      <span class="stat-label" data-it="Certificazioni" data-en="Certifications">Certificazioni</span>
+      <span class="stat-value" data-it="7 ottenute" data-en="7 earned">7 ottenute</span>
     </div>
   </div>
 </div>
 
+<!-- PROFILO -->
 <section id="profilo">
   <div class="section-header reveal">
     <span class="section-number">01</span>
-    <h2 class="section-title">Profilo</h2>
+    <h2 class="section-title" data-it="Profilo" data-en="About">Profilo</h2>
     <div class="section-line"></div>
   </div>
-  <p class="profilo-text reveal">
-    Sono un Ingegnere Gestionale con un profilo ibrido tra <strong>pianificazione industriale</strong>,
-    miglioramento continuo e sviluppo software applicato ai processi. Non mi fermo all'analisi:
-    <strong>costruisco gli strumenti per migliorare davvero</strong>. Ho progettato soluzioni digitali
-    end-to-end — dalla web app alla gestione remota dell'hardware — con un approccio orientato ai dati
-    e all'efficienza operativa. Utilizzo l'intelligenza artificiale come AI Augmentation: 
-    la padronanza degli strumenti AI generativa fa parte del mio metodo di lavoro
-    quotidiano. Credo che il futuro dell'industria passi dalla capacità di unire
+  <p class="profilo-text reveal" id="profiloText">
+    Sono un Ingegnere Gestionale con un profilo ibrido tra <strong>pianificazione industriale</strong>, 
+    miglioramento continuo e sviluppo software applicato ai processi. Non mi fermo all'analisi: 
+    <strong>costruisco gli strumenti per migliorare davvero</strong>. Ho progettato soluzioni digitali 
+    end-to-end — dalla web app alla gestione remota dell'hardware — con un approccio orientato ai dati 
+    e all'efficienza operativa. Utilizzo l'AI come <strong>AI Augmentation</strong>: 
+    la padronanza degli strumenti generativi fa parte del mio metodo di lavoro quotidiano. 
+    Credo che il futuro dell'industria passi dalla capacità di unire 
     <strong>competenze gestionali e tecniche</strong>.
   </p>
   <div class="tags reveal">
@@ -228,208 +353,281 @@
     <span class="tag">Digital Signage</span>
     <span class="tag">Data Analysis</span>
     <span class="tag">Process Automation</span>
-    <span class="tag">AI Tools</span>
+    <span class="tag">AI Augmentation</span>
     <span class="tag">ERP LogyPlan</span>
     <span class="tag">Continuous Improvement</span>
     <span class="tag">KPI Management</span>
   </div>
 </section>
 
-<section id="esperienze">
+<!-- PROGETTO IN EVIDENZA -->
+<section id="progetto">
   <div class="section-header reveal">
     <span class="section-number">02</span>
-    <h2 class="section-title">Esperienze</h2>
+    <h2 class="section-title" data-it="Progetto in Evidenza" data-en="Featured Project">Progetto in Evidenza</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="project-card reveal">
+    <div class="project-body">
+      <div class="project-chip" data-it="IoT · Kiosk · Digital Signage · Python" data-en="IoT · Kiosk · Digital Signage · Python">IoT · Kiosk · Digital Signage · Python</div>
+      <div class="project-title" data-it="Sistema Web-Kiosk & Digital Signage Aziendale" data-en="Industrial Web-Kiosk & Digital Signage System">Sistema Web-Kiosk & Digital Signage Aziendale</div>
+      <p class="project-desc" id="projectDesc">
+        Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione. 
+        Dalla scrittura del codice alla configurazione hardware, dalla gestione della sicurezza di rete 
+        alla distribuzione remota dei dispositivi — un progetto completo, costruito interamente in-house. 
+        Già operativo in produzione con operatori reali.
+      </p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">HTML + SQL</span>
+        <span class="project-tag">Kotlin / Android</span>
+        <span class="project-tag">MDM</span>
+        <span class="project-tag">Raspberry Pi 4</span>
+        <span class="project-tag">Kiosk Mode</span>
+        <span class="project-tag">UX Design</span>
+        <span class="project-tag">Network Security</span>
+      </div>
+    </div>
+    <div class="project-metrics">
+      <div class="metric-row">
+        <span class="metric-key" data-it="Scope" data-en="Scope">Scope</span>
+        <span class="metric-val sm" data-it="End-to-End" data-en="End-to-End">End-to-End</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Web App" data-en="Web App">Web App</span>
+        <span class="metric-val sm" data-it="Python + HTML + SQL" data-en="Python + HTML + SQL">Python + HTML + SQL</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Dispositivi" data-en="Devices">Dispositivi</span>
+        <span class="metric-val sm" data-it="Tablet kiosk — MDM remoto" data-en="Kiosk tablets — remote MDM">Tablet kiosk — MDM remoto</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Signage" data-en="Signage">Signage</span>
+        <span class="metric-val sm">Raspberry Pi 4</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Stato" data-en="Status">Stato</span>
+        <span class="metric-val sm" style="color:var(--accent2)" data-it="Già operativo in produzione ✓" data-en="Live in production ✓">Già operativo in produzione ✓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPERIENZE -->
+<section id="esperienze">
+  <div class="section-header reveal">
+    <span class="section-number">03</span>
+    <h2 class="section-title" data-it="Esperienza" data-en="Experience">Esperienza</h2>
     <div class="section-line"></div>
   </div>
   <div class="timeline">
     <div class="timeline-item current reveal">
-      <div class="timeline-period">Aprile 2025 — Presente</div>
-      <div class="timeline-role">Planning Specialist & Continuous Improvement</div>
+      <div class="timeline-period" data-it="Aprile 2025 — Presente" data-en="April 2025 — Present">Aprile 2025 — Presente</div>
+      <div class="timeline-role" data-it="Planning Specialist & Continuous Improvement" data-en="Planning Specialist & Continuous Improvement">Planning Specialist & Continuous Improvement</div>
       <div class="timeline-company">Lemco Precision — Bioggio (CH)</div>
-      <ul class="timeline-bullets">
-        <li>Sviluppato web app (Python + HTML) per raccolta digitale dei dati di produzione su tablet in modalità kiosk, eliminando la documentazione cartacea e centralizzando le informazioni operative</li>
-        <li>Progettato e distribuito un sistema MDM per la gestione remota centralizzata della flotta di tablet, con aggiornamenti e controllo da remoto</li>
-        <li>Realizzato sistema di digital signage su Raspberry Pi 4 per la comunicazione interna in reparto</li>
-        <li>Interfaccia utente progettata con approccio UX-oriented per garantire semplicità massima agli operatori</li>
-        <li>Definito e monitorato KPI di processo con ruolo di Product Owner; analisi dati con Power BI ed Excel Avanzato</li>
-        <li>Contribuito alla documentazione e formazione per la certificazione EN9100</li>
+      <ul class="timeline-bullets" id="bullets1">
+        <li data-it="Sviluppo di una web app (Python + HTML + SQL) per la raccolta digitale dei dati di produzione su tablet kiosk, eliminando la documentazione cartacea e centralizzando le informazioni operative" data-en="Development of a web app (Python + HTML + SQL) for digital production data collection on kiosk tablets, eliminating paper-based documentation and centralizing operational data">Sviluppo di una web app (Python + HTML + SQL) per la raccolta digitale dei dati di produzione su tablet kiosk, eliminando la documentazione cartacea e centralizzando le informazioni operative</li>
+        <li data-it="Progettazione e distribuzione di un sistema MDM per la gestione remota centralizzata della flotta di tablet (aggiornamenti, controllo, sicurezza)" data-en="Design and deployment of an MDM system for centralized remote management of the tablet fleet (updates, control, security)">Progettazione e distribuzione di un sistema MDM per la gestione remota centralizzata della flotta di tablet (aggiornamenti, controllo, sicurezza)</li>
+        <li data-it="Realizzazione di un sistema di digital signage su Raspberry Pi 4 per la comunicazione interna in reparto" data-en="Implementation of a digital signage system on Raspberry Pi 4 for internal shop-floor communication">Realizzazione di un sistema di digital signage su Raspberry Pi 4 per la comunicazione interna in reparto</li>
+        <li data-it="Progettazione dell'interfaccia utente con approccio UX-oriented per garantire semplicità massima agli operatori" data-en="User interface design with a UX-oriented approach to maximize simplicity for operators">Progettazione dell'interfaccia utente con approccio UX-oriented per garantire semplicità massima agli operatori</li>
+        <li data-it="Definizione e monitoraggio dei KPI di processo con ruolo di Product Owner; analisi dati con Power BI ed Excel Avanzato" data-en="Definition and monitoring of process KPIs as Product Owner; data analysis with Power BI and Advanced Excel">Definizione e monitoraggio dei KPI di processo con ruolo di Product Owner; analisi dati con Power BI ed Excel Avanzato</li>
+        <li data-it="Supporto alla documentazione e formazione per la certificazione EN9100" data-en="Support for documentation and training for EN9100 certification">Supporto alla documentazione e formazione per la certificazione EN9100</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
-      <div class="timeline-period">Gennaio 2024 — Aprile 2025</div>
-      <div class="timeline-role">Planning Specialist</div>
+      <div class="timeline-period" data-it="Gennaio 2024 — Aprile 2025" data-en="January 2024 — April 2025">Gennaio 2024 — Aprile 2025</div>
+      <div class="timeline-role" data-it="Planning Specialist" data-en="Planning Specialist">Planning Specialist</div>
       <div class="timeline-company">Lemco Precision — Bioggio (CH)</div>
       <ul class="timeline-bullets">
-        <li>Pianificazione della produzione e monitoraggio avanzamento ordini (OTD)</li>
-        <li>Gestione dati e reportistica per il monitoraggio delle performance operative con ERP LogyPlan</li>
+        <li data-it="Pianificazione della produzione e monitoraggio dell'avanzamento ordini (OTD)" data-en="Production planning and order progress monitoring (OTD)">Pianificazione della produzione e monitoraggio dell'avanzamento ordini (OTD)</li>
+        <li data-it="Gestione dati e reportistica per il monitoraggio delle performance operative con ERP LogyPlan" data-en="Data management and reporting for operational performance monitoring via ERP LogyPlan">Gestione dati e reportistica per il monitoraggio delle performance operative con ERP LogyPlan</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
-      <div class="timeline-period">Settembre 2022 — Gennaio 2024</div>
-      <div class="timeline-role">Process Technician · Stage</div>
+      <div class="timeline-period" data-it="Settembre 2022 — Gennaio 2024" data-en="September 2022 — January 2024">Settembre 2022 — Gennaio 2024</div>
+      <div class="timeline-role" data-it="Process Technician · Stage" data-en="Process Technician · Internship">Process Technician · Stage</div>
       <div class="timeline-company">Carlisle Interconnect Technologies — Bioggio (CH)</div>
       <ul class="timeline-bullets">
-        <li>Supporto tecnico-operativo ai processi di produzione in contesto aerospace</li>
-        <li>Stage orientato all'apprendimento tecnico e ai processi produttivi industriali</li>
+        <li data-it="Supporto tecnico-operativo ai processi di produzione in contesto aerospace" data-en="Technical and operational support for production processes in an aerospace context">Supporto tecnico-operativo ai processi di produzione in contesto aerospace</li>
+        <li data-it="Apprendimento tecnico focalizzato sui processi produttivi industriali" data-en="Technical learning focused on industrial production processes">Apprendimento tecnico focalizzato sui processi produttivi industriali</li>
       </ul>
     </div>
   </div>
 </section>
 
+<!-- COMPETENZE -->
 <section id="competenze">
   <div class="section-header reveal">
-    <span class="section-number">03</span>
-    <h2 class="section-title">Competenze</h2>
+    <span class="section-number">04</span>
+    <h2 class="section-title" data-it="Competenze" data-en="Skills">Competenze</h2>
     <div class="section-line"></div>
   </div>
-  <div class="skills-grid reveal" id="skillsGrid">
+  <div class="skills-grid reveal">
     <div class="skill-block">
-      <div class="skill-block-title">Business Intelligence</div>
+      <div class="skill-block-title" data-it="Business Intelligence" data-en="Business Intelligence">Business Intelligence</div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Microsoft Power BI</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-item-top"><span class="skill-name">Microsoft Power BI</span><span class="skill-level" data-it="Avanzato" data-en="Advanced">Avanzato</span></div>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Excel Avanzato</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-item-top"><span class="skill-name" data-it="Excel Avanzato" data-en="Advanced Excel">Excel Avanzato</span><span class="skill-level" data-it="Avanzato" data-en="Advanced">Avanzato</span></div>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Microsoft Project</span><span class="skill-level">Intermedio</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div>
+        <div class="skill-item-top"><span class="skill-name">Microsoft Project</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Microsoft Visio</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="60"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">DAX / Power Query</span><span class="skill-level" data-it="Avanzato" data-en="Advanced">Avanzato</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
       </div>
     </div>
+
     <div class="skill-block">
-      <div class="skill-block-title">Sviluppo & Digital</div>
+      <div class="skill-block-title" data-it="Sviluppo & Digital" data-en="Dev & Digital">Sviluppo & Digital</div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Python</span><span class="skill-level">Intermedio+</span></div>
+        <div class="skill-item-top"><span class="skill-name">Python</span><span class="skill-level" data-it="Intermedio+" data-en="Intermediate+">Intermedio+</span></div>
         <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="72"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">HTML / Web App</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-item-top"><span class="skill-name">HTML / SQL / Web App</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
         <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="65"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">MDM & IoT (RPi, Kiosk)</span><span class="skill-level">Intermedio</span></div>
+        <div class="skill-item-top"><span class="skill-name">MDM & IoT (RPi, Kiosk)</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
         <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="60"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">AI Tools (Generativa)</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-item-top"><span class="skill-name">AI Tools (Generativa)</span><span class="skill-level" data-it="Avanzato" data-en="Advanced">Avanzato</span></div>
         <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="85"></div></div>
       </div>
-    </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Gestione & Processi</div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">ERP LogyPlan</span><span class="skill-level">Avanzato</span></div>
+        <div class="skill-item-top"><span class="skill-name">FileMaker</span><span class="skill-level" data-it="Base+" data-en="Basic+">Base+</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="45"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-title" data-it="Gestione & Processi" data-en="Management & Ops">Gestione & Processi</div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">ERP LogyPlan</span><span class="skill-level" data-it="Avanzato" data-en="Advanced">Avanzato</span></div>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Lean Six Sigma</span><span class="skill-level">Intermedio</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" data-width="68"></div></div>
+        <div class="skill-item-top"><span class="skill-name">SAP ERP</span><span class="skill-level" data-it="Base" data-en="Basic">Base</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="35"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">CAD / NX</span><span class="skill-level">Intermedio</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" data-width="68"></div></div>
+        <div class="skill-item-top"><span class="skill-name" data-it="Lean Six Sigma (VSM · 5S)" data-en="Lean Six Sigma (VSM · 5S)">Lean Six Sigma (VSM · 5S)</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Arena Simulation</span><span class="skill-level">Base+</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" data-width="50"></div></div>
+        <div class="skill-item-top"><span class="skill-name">CAD / NX</span><span class="skill-level" data-it="Intermedio" data-en="Intermediate">Intermedio</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="55"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-item-top"><span class="skill-name">Arena Simulation</span><span class="skill-level" data-it="Base+" data-en="Basic+">Base+</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="45"></div></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FORMAZIONE -->
 <section id="formazione">
   <div class="section-header reveal">
-    <span class="section-number">04</span>
-    <h2 class="section-title">Formazione</h2>
+    <span class="section-number">05</span>
+    <h2 class="section-title" data-it="Formazione" data-en="Education">Formazione</h2>
     <div class="section-line"></div>
   </div>
   <div class="edu-grid reveal">
     <div class="edu-item">
-      <div class="edu-degree">Bachelor in Ingegneria Gestionale</div>
+      <div class="edu-degree" data-it="Bachelor in Ingegneria Gestionale" data-en="BSc Management Engineering">Bachelor in Ingegneria Gestionale</div>
       <div class="edu-school">SUPSI — Scuola Univ. Prof. della Svizzera Italiana</div>
       <div class="edu-period">2021 — 2024</div>
-      <div class="edu-note">Tesi pratica aziendale: "Definizione di un sistema di KPI per la certificazione EN9100" — svolta presso Lemco Precision, Bioggio.</div>
+      <div class="edu-note" data-it="Tesi pratica aziendale: 'Definizione di un sistema di KPI per la certificazione EN9100' — svolta presso Lemco Precision, Bioggio." data-en="Industry thesis: 'Defining a KPI system for EN9100 certification' — carried out at Lemco Precision, Bioggio.">Tesi pratica aziendale: "Definizione di un sistema di KPI per la certificazione EN9100" — svolta presso Lemco Precision, Bioggio.</div>
     </div>
     <div class="edu-item">
-      <div class="edu-degree">Diploma Baccalaureato Europeo</div>
-      <div class="edu-school">Scuola Europea — Varese (IT)</div>
+      <div class="edu-degree" data-it="Diploma Baccalaureato Europeo" data-en="European Baccalaureate Diploma">Diploma Baccalaureato Europeo</div>
+      <div class="edu-school" data-it="Scuola Europea — Varese (IT)" data-en="European School — Varese (IT)">Scuola Europea — Varese (IT)</div>
       <div class="edu-period">2007 — 2015</div>
-      <div class="edu-note">Percorso di studi internazionale con diploma riconosciuto in tutti i paesi dell'Unione Europea.</div>
+      <div class="edu-note" data-it="Percorso di studi internazionale con diploma riconosciuto in tutti i paesi dell'Unione Europea." data-en="International study programme with a diploma recognised across all EU member states.">Percorso di studi internazionale con diploma riconosciuto in tutti i paesi dell'Unione Europea.</div>
     </div>
   </div>
 
-  <div class="section-header reveal" style="margin-top: 3rem;">
-    <span class="section-number">04b</span>
-    <h2 class="section-title" style="font-size:1.3rem;">Certificazioni</h2>
+  <div class="section-header reveal" style="margin-top: 5rem;">
+    <span class="section-number">06</span>
+    <h2 class="section-title" data-it="Certificazioni & Lingue" data-en="Certifications & Languages">Certificazioni & Lingue</h2>
     <div class="section-line"></div>
   </div>
   <div class="cert-grid reveal">
     <div class="cert-item"><span class="cert-year">2025</span><span class="cert-name">Power BI Training</span></div>
-    <div class="cert-item"><span class="cert-year">2025</span><span class="cert-name">Certificato Samaritano</span></div>
-    <div class="cert-item"><span class="cert-year">2024</span><span class="cert-name">Attestato di Formazione EN9100</span></div>
+    <div class="cert-item"><span class="cert-year">2025</span><span class="cert-name" data-it="Certificato Samaritano" data-en="First Aid Certificate">Certificato Samaritano</span></div>
+    <div class="cert-item"><span class="cert-year">2024</span><span class="cert-name" data-it="Attestato di Formazione EN9100" data-en="EN9100 Training Certificate">Attestato di Formazione EN9100</span></div>
     <div class="cert-item"><span class="cert-year">2023</span><span class="cert-name">Data Science with Python</span></div>
-    <div class="cert-item"><span class="cert-year">2023</span><span class="cert-name">Elements of AI — Università di Helsinki</span></div>
+    <div class="cert-item"><span class="cert-year">2023</span><span class="cert-name" data-it="Elements of AI — Università di Helsinki" data-en="Elements of AI — University of Helsinki">Elements of AI — Università di Helsinki</span></div>
     <div class="cert-item"><span class="cert-year">2022</span><span class="cert-name">Lean Six Sigma White Belt</span></div>
-    <div class="cert-item"><span class="cert-year">2021</span><span class="cert-name">Google Digital Marketing (Fondamenti)</span></div>
+    <div class="cert-item"><span class="cert-year">2021</span><span class="cert-name" data-it="Google Digital Marketing (Fondamenti)" data-en="Google Digital Marketing (Fundamentals)">Google Digital Marketing (Fondamenti)</span></div>
+    <div class="cert-item"><span class="cert-year">C2</span><span class="cert-name" data-it="Italiano (Madrelingua)" data-en="Italian (Native speaker)">Italiano (Madrelingua)</span></div>
+    <div class="cert-item"><span class="cert-year">C1</span><span class="cert-name" data-it="Inglese (Avanzato)" data-en="English (Advanced)">Inglese (Avanzato)</span></div>
   </div>
 </section>
 
-<section>
-  <div class="section-header reveal">
-    <span class="section-number">05</span>
-    <h2 class="section-title">Lingue</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="skills-grid reveal" style="grid-template-columns: 1fr 1fr;">
-    <div class="skill-block">
-      <div class="skill-block-title">Italiano</div>
-      <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Madrelingua</span><span class="skill-level">C2</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" data-width="100"></div></div>
-      </div>
-    </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Inglese</div>
-      <div class="skill-item">
-        <div class="skill-item-top"><span class="skill-name">Avanzato</span><span class="skill-level">C1</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill accent2" data-width="82"></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- CONTATTI -->
 <section id="contatti">
   <div class="section-header reveal">
-    <span class="section-number">06</span>
-    <h2 class="section-title">Contatti</h2>
+    <span class="section-number">07</span>
+    <h2 class="section-title" data-it="Contatti" data-en="Contact">Contatti</h2>
     <div class="section-line"></div>
   </div>
+
+  <!-- BANNER OPPORTUNITÀ CTA - DISATTIVATO TEMPORANEAMENTE
+  <div class="cta-banner reveal">
+    <div class="cta-text">
+      <h3 data-it="Aperto a nuove opportunità" data-en="Open to new opportunities">Aperto a nuove opportunità</h3>
+      <p data-it="Valuto posizioni in ambito Planning, Continuous Improvement e Digital Innovation." data-en="Evaluating roles in Planning, Continuous Improvement, and Digital Innovation.">Valuto posizioni in ambito Planning, Continuous Improvement e Digital Innovation.</p>
+    </div>
+    <a href="mailto:emanuelecazzola97@gmail.com?subject=Nuova%20opportunit%C3%A0%20in%20Ticino&body=Ciao%20Emanuele%2C%0A%0AHo%20visionato%20il%20tuo%20portfolio%20e%20vorrei%20scambiare%20due%20parole%20su%20una%20posizione%20aperta...%0A" 
+       id="mailtoBtn" 
+       class="btn" 
+       data-it="Contattami via Email" 
+       data-en="Let's Talk"
+       data-mailto-it="mailto:emanuelecazzola97@gmail.com?subject=Nuova%20opportunit%C3%A0%20in%20Ticino&body=Ciao%20Emanuele%2C%0A%0AHo%20visionato%20il%20tuo%20portfolio%20e%20vorrei%20scambiare%20due%20parole%20su%20una%20posizione%20aperta...%0A"
+       data-mailto-en="mailto:emanuelecazzola97@gmail.com?subject=New%20opportunity%20in%20Ticino&body=Hi%20Emanuele%2C%0A%0AI%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20open%20position...%0A">
+      Contattami via Email
+    </a>
+  </div>
+  -->
+
   <div class="contact-grid reveal">
     <div class="contact-item">
-      <div class="contact-label">Telefono</div>
-      <div class="contact-value">+39 345 8096370</div>
+      <div class="contact-label" data-it="Telefono" data-en="Phone">Telefono</div>
+      <div class="contact-value"><a href="tel:+393458096370">+39 345 8096370</a></div>
     </div>
     <div class="contact-item">
       <div class="contact-label">Email</div>
-      <div class="contact-value">emanuelecazzola97@gmail.com</div>
+      <div class="contact-value"><a href="mailto:emanuelecazzola97@gmail.com">emanuelecazzola97@gmail.com</a></div>
     </div>
     <div class="contact-item">
-      <div class="contact-label">Posizione</div>
-      <div class="contact-value">Cadegliano&#8209;Viconago (VA) · Ticino&nbsp;(CH)</div>
+      <div class="contact-label" data-it="Posizione" data-en="Location">Posizione</div>
+      <div class="contact-value" data-it="Cadegliano‑Viconago (VA)" data-en="Cadegliano‑Viconago (VA)">Cadegliano‑Viconago (VA)</div>
     </div>
     <div class="contact-item">
       <div class="contact-label">LinkedIn</div>
-      <div class="contact-value" style="color: var(--accent2)">emanuelecazzola</div>
+      <div class="contact-value"><a href="https://linkedin.com/in/emanuelecazzola" target="_blank">linkedin.com/in/emanuelecazzola</a></div>
     </div>
     <div class="contact-item">
-      <div class="contact-label">Disponibilità</div>
-      <div class="contact-value">Ticino&nbsp;(CH) · Nord&nbsp;Italia</div>
+      <div class="contact-label" data-it="Disponibilità" data-en="Availability">Disponibilità</div>
+      <div class="contact-value" data-it="Ticino (CH) · Nord Italia" data-en="Ticino (CH) · Northern Italy">Ticino (CH) · Nord Italia</div>
     </div>
     <div class="contact-item">
-      <div class="contact-label">Patente</div>
-      <div class="contact-value">B · Automunito</div>
+      <div class="contact-label" data-it="Patente" data-en="Driving Licence">Patente</div>
+      <div class="contact-value" data-it="B · Automunito" data-en="B · Automunito">B · Automunito</div>
     </div>
   </div>
 </section>
@@ -437,33 +635,93 @@
 <footer>
   <span>© 2025 Emanuele Cazzola</span>
   <span>Planning · BI · Digital Innovation</span>
-  <span>Ticino, CH</span>
 </footer>
 
+<!-- SCRIPT JS -->
 <script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
+  let currentLang = 'it';
+
+  // Variabili per testi lunghi (HTML formattato)
+  const profiloIT = `Sono un Ingegnere Gestionale con un profilo ibrido tra <strong>pianificazione industriale</strong>, miglioramento continuo e sviluppo software applicato ai processi. Non mi fermo all'analisi: <strong>costruisco gli strumenti per migliorare davvero</strong>. Ho progettato soluzioni digitali end-to-end — dalla web app alla gestione remota dell'hardware — con un approccio orientato ai dati e all'efficienza operativa. Utilizzo l'AI come <strong>AI Augmentation</strong>: la padronanza degli strumenti generativi fa parte del mio metodo di lavoro quotidiano. Credo che il futuro dell'industria passi dalla capacità di unire <strong>competenze gestionali e tecniche</strong>.`;
+  
+  const profiloEN = `I am a Management Engineer with a hybrid profile spanning <strong>industrial planning</strong>, continuous improvement, and software development applied to processes. I don't stop at analysis: <strong>I build the tools to actually improve things</strong>. I have designed digital solutions end-to-end — from web apps to remote hardware management — with a data-driven approach to operational efficiency. I use AI as <strong>AI Augmentation</strong>: mastering generative tools is part of my daily workflow. I believe the future of industry lies in combining <strong>management and technical skills</strong>.`;
+
+  const projectDescIT = `Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione. Dalla scrittura del codice alla configurazione hardware, dalla gestione della sicurezza di rete alla distribuzione remota dei dispositivi — un progetto completo, costruito interamente in-house. Già operativo in produzione con operatori reali.`;
+  
+  const projectDescEN = `End-to-end design and development of a digital ecosystem for production data collection. From writing the code to hardware configuration, from network security management to remote device deployment — a complete project, built entirely in-house. Live in production with real operators.`;
+
+  /* ── TRADUZIONE ── */
+  function toggleLang() {
+    currentLang = currentLang === 'it' ? 'en' : 'it';
+    document.getElementById('langBtn').textContent = currentLang === 'it' ? 'EN' : 'IT';
+
+    document.querySelectorAll('[data-it]').forEach(el => {
+      // Salta gli elementi gestiti a parte
+      if(el.tagName.toLowerCase() === 'li' || el.id === 'profiloText' || el.id === 'projectDesc') return;
+      
+      const val = currentLang === 'it' ? el.dataset.it : el.dataset.en;
+      if (val !== undefined && !el.innerHTML.includes('<')) {
+        el.textContent = val;
+      } else if (val !== undefined) {
+        el.innerHTML = val;
+      }
+    });
+
+    // swap innerHTML elements
+    document.getElementById('profiloText').innerHTML = currentLang === 'it' ? profiloIT : profiloEN;
+    document.getElementById('projectDesc').textContent = currentLang === 'it' ? projectDescIT : projectDescEN;
+
+    // swap li elements con data-it/data-en
+    document.querySelectorAll('li[data-it]').forEach(el => {
+      el.textContent = currentLang === 'it' ? el.dataset.it : el.dataset.en;
+    });
+
+    // swap del bottone mailto precompilato
+    const mailtoBtn = document.getElementById('mailtoBtn');
+    if(mailtoBtn) {
+      mailtoBtn.href = currentLang === 'it' ? mailtoBtn.dataset.mailtoIt : mailtoBtn.dataset.mailtoEn;
+    }
+  }
+
+  /* ── TEMA ── */
+  function toggleTheme() {
+    const isLight = document.documentElement.classList.toggle('light');
+    document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
+    // Persistenza tra visite
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+
+  // Ripristino tema al caricamento
+  if (localStorage.getItem('theme') === 'light') {
+    document.documentElement.classList.add('light');
+    document.getElementById('themeBtn').textContent = '🌙';
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const revealObs = new IntersectionObserver(entries => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        entry.target.style.transitionDelay = (i * 0.05) + 's';
+        entry.target.style.transitionDelay = (i * 0.06) + 's';
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── BARRE SKILL ── */
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(b => {
+          b.style.width = b.dataset.width + '%';
+        });
+        barObs.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  document.querySelectorAll('.skill-block').forEach(el => barObs.observe(el));
 
-  const skillObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-        skillObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.skills-grid').forEach(g => skillObserver.observe(g));
 </script>
 </body>
 </html>
