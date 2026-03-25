@@ -43,7 +43,6 @@
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text-body); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
-  /* noise — only dark */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -127,14 +126,14 @@
   .tag { font-family: var(--mono); font-size: 0.65rem; padding: 0.35rem 0.85rem; border: 1px solid var(--border); color: var(--text-body); letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; background: var(--bg2); }
   .tag:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
-  /* ── PROGETTO ────────────────────────────────────── */
+  /* ── PROGETTI ────────────────────────────────────── */
   .project-card {
     border: 1px solid var(--border);
     background: var(--bg2);
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     transition: box-shadow 0.2s;
   }
   .project-card:hover { box-shadow: var(--shadow); }
@@ -193,43 +192,6 @@
   .edu-period { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-bottom: 1rem; }
   .edu-note { font-size: 0.88rem; color: var(--text-body); line-height: 1.65; }
 
-  /* ── CTA BANNER & CONTACT ────────────────────────── */
-  .cta-banner {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 3.5rem 4rem;
-    margin-bottom: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .cta-banner::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: var(--accent);
-  }
-  .cta-banner:hover {
-    border-color: var(--accent);
-  }
-  .cta-text h3 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
-  }
-  .cta-text p {
-    color: var(--text-body);
-    font-size: 0.95rem;
-    max-width: 500px;
-  }
-
   .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
   .contact-item { background: var(--bg2); padding: 2.5rem; transition: background 0.2s; }
   .contact-item:hover { background: var(--bg3); }
@@ -238,21 +200,17 @@
   .contact-value a { color: var(--accent2); text-decoration: none; }
   .contact-value a:hover { text-decoration: underline; }
 
-  /* ── FOOTER ──────────────────────────────────────── */
   footer { border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
   footer span { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
 
-  /* ── REVEAL ──────────────────────────────────────── */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* ── RESPONSIVE ──────────────────────────────────── */
   @media (max-width: 900px) {
     .project-card { grid-template-columns: 1fr; }
     .project-body { border-right: none; border-bottom: 1px solid var(--border); }
     .edu-grid { grid-template-columns: 1fr; }
     .contact-grid { grid-template-columns: 1fr; }
-    .cta-banner { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   }
   @media (max-width: 768px) {
     nav { padding: 0 1.2rem; }
@@ -273,7 +231,7 @@
   <div class="nav-logo">EC // Portfolio</div>
   <ul class="nav-links">
     <li><a href="#profilo" data-it="Profilo" data-en="About">Profilo</a></li>
-    <li><a href="#progetto" data-it="Progetto" data-en="Project">Progetto</a></li>
+    <li><a href="#progetti" data-it="Progetti" data-en="Projects">Progetti</a></li>
     <li><a href="#esperienze" data-it="Esperienza" data-en="Experience">Esperienza</a></li>
     <li><a href="#competenze" data-it="Competenze" data-en="Skills">Competenze</a></li>
     <li><a href="#formazione" data-it="Formazione" data-en="Education">Formazione</a></li>
@@ -360,14 +318,15 @@
   </div>
 </section>
 
-<!-- PROGETTO IN EVIDENZA -->
-<section id="progetto">
+<!-- PROGETTI -->
+<section id="progetti">
   <div class="section-header reveal">
     <span class="section-number">02</span>
-    <h2 class="section-title" data-it="Progetto in Evidenza" data-en="Featured Project">Progetto in Evidenza</h2>
+    <h2 class="section-title" data-it="Progetti" data-en="Projects">Progetti</h2>
     <div class="section-line"></div>
   </div>
 
+  <!-- PROGETTO 1: WEB-KIOSK -->
   <div class="project-card reveal">
     <div class="project-body">
       <div class="project-chip" data-it="IoT · Kiosk · Digital Signage · Python" data-en="IoT · Kiosk · Digital Signage · Python">IoT · Kiosk · Digital Signage · Python</div>
@@ -387,6 +346,9 @@
         <span class="project-tag">Kiosk Mode</span>
         <span class="project-tag">UX Design</span>
         <span class="project-tag">Network Security</span>
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <a href="https://1emanuele.github.io/NAVIS-Enterprise-Navigation-System-Demo/login.html" target="_blank" class="btn btn-ghost" style="padding: 0.5rem 1rem; font-size: 0.65rem;" data-it="Apri Demo" data-en="Open Demo">Apri Demo</a>
       </div>
     </div>
     <div class="project-metrics">
@@ -409,6 +371,40 @@
       <div class="metric-row">
         <span class="metric-key" data-it="Stato" data-en="Status">Stato</span>
         <span class="metric-val sm" style="color:var(--accent2)" data-it="Già operativo in produzione ✓" data-en="Live in production ✓">Già operativo in produzione ✓</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGETTO 2: FLEET MDM -->
+  <div class="project-card reveal">
+    <div class="project-body">
+      <div class="project-chip" data-it="BUSINESS INTELLIGENCE · OPERATION MONITORING" data-en="BUSINESS INTELLIGENCE · OPERATION MONITORING">BUSINESS INTELLIGENCE · OPERATION MONITORING</div>
+      <div class="project-title" data-it="Fleet MDM — Dashboard Monitoraggio & KPI" data-en="Fleet MDM — Monitoring & KPI Dashboard">Fleet MDM — Dashboard Monitoraggio & KPI</div>
+      <p class="project-desc" id="fleetDesc">
+        Interfaccia di monitoraggio flotta focalizzata sulla visualizzazione dei KPI. Progettata per centralizzare lo stato dei dispositivi (batteria, connettività, uptime), supportando la pianificazione degli interventi e l'ottimizzazione dell'efficienza operativa.
+      </p>
+      <div class="project-tags">
+        <span class="project-tag">Bootstrap 5</span>
+        <span class="project-tag" data-it="Dashboard KPI" data-en="KPI Dashboard">Dashboard KPI</span>
+        <span class="project-tag" data-it="Supporto Decisionale" data-en="Decision Support">Supporto Decisionale</span>
+        <span class="project-tag" data-it="Visualizzazione Dati" data-en="Data Viz">Visualizzazione Dati</span>
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <a href="https://1emanuele.github.io/Fleet-MDM-Demo/login.html" target="_blank" class="btn btn-ghost" style="padding: 0.5rem 1rem; font-size: 0.65rem;" data-it="Apri Demo" data-en="Open Demo">Apri Demo</a>
+      </div>
+    </div>
+    <div class="project-metrics">
+      <div class="metric-row">
+        <span class="metric-key" data-it="Supporto Decisionale" data-en="Decision Support">Supporto Decisionale</span>
+        <span class="metric-val sm" data-it="Simulazione Dati Flotta" data-en="Fleet Data Simulation">Simulazione Dati Flotta</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Usabilità Industriale" data-en="Industrial UX">Usabilità Industriale</span>
+        <span class="metric-val sm" data-it="Interfaccia Operatore" data-en="Operator Interface">Interfaccia Operatore</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-key" data-it="Gestione Eccezioni" data-en="Exception Mgmt">Gestione Eccezioni</span>
+        <span class="metric-val sm" data-it="Filtri KPI Real-time" data-en="Real-time KPI Filters">Filtri KPI Real-time</span>
       </div>
     </div>
   </div>
@@ -445,7 +441,7 @@
       </ul>
     </div>
     <div class="timeline-item reveal">
-      <div class="timeline-period" data-it="Settembre 2022 — Gennaio 2024" data-en="September 2022 — January 2024">Settembre 2022 — Gennaio 2024</div>
+      <div class="timeline-period" data-it="Settembre 2022 — Gennaio 2024" data-en="September 2022 — January 2024">Settembre 2022 — January 2024</div>
       <div class="timeline-role" data-it="Process Technician · Stage" data-en="Process Technician · Internship">Process Technician · Stage</div>
       <div class="timeline-company">Carlisle Interconnect Technologies — Bioggio (CH)</div>
       <ul class="timeline-bullets">
@@ -586,24 +582,6 @@
     <div class="section-line"></div>
   </div>
 
-  <!-- BANNER OPPORTUNITÀ CTA - DISATTIVATO TEMPORANEAMENTE
-  <div class="cta-banner reveal">
-    <div class="cta-text">
-      <h3 data-it="Aperto a nuove opportunità" data-en="Open to new opportunities">Aperto a nuove opportunità</h3>
-      <p data-it="Valuto posizioni in ambito Planning, Continuous Improvement e Digital Innovation." data-en="Evaluating roles in Planning, Continuous Improvement, and Digital Innovation.">Valuto posizioni in ambito Planning, Continuous Improvement e Digital Innovation.</p>
-    </div>
-    <a href="mailto:emanuelecazzola97@gmail.com?subject=Nuova%20opportunit%C3%A0%20in%20Ticino&body=Ciao%20Emanuele%2C%0A%0AHo%20visionato%20il%20tuo%20portfolio%20e%20vorrei%20scambiare%20due%20parole%20su%20una%20posizione%20aperta...%0A" 
-       id="mailtoBtn" 
-       class="btn" 
-       data-it="Contattami via Email" 
-       data-en="Let's Talk"
-       data-mailto-it="mailto:emanuelecazzola97@gmail.com?subject=Nuova%20opportunit%C3%A0%20in%20Ticino&body=Ciao%20Emanuele%2C%0A%0AHo%20visionato%20il%20tuo%20portfolio%20e%20vorrei%20scambiare%20due%20parole%20su%20una%20posizione%20aperta...%0A"
-       data-mailto-en="mailto:emanuelecazzola97@gmail.com?subject=New%20opportunity%20in%20Ticino&body=Hi%20Emanuele%2C%0A%0AI%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20open%20position...%0A">
-      Contattami via Email
-    </a>
-  </div>
-  -->
-
   <div class="contact-grid reveal">
     <div class="contact-item">
       <div class="contact-label" data-it="Telefono" data-en="Phone">Telefono</div>
@@ -641,14 +619,14 @@
 <script>
   let currentLang = 'it';
 
-  // Variabili per testi lunghi (HTML formattato)
   const profiloIT = `Sono un Ingegnere Gestionale con un profilo ibrido tra <strong>pianificazione industriale</strong>, miglioramento continuo e sviluppo software applicato ai processi. Non mi fermo all'analisi: <strong>costruisco gli strumenti per migliorare davvero</strong>. Ho progettato soluzioni digitali end-to-end — dalla web app alla gestione remota dell'hardware — con un approccio orientato ai dati e all'efficienza operativa. Utilizzo l'AI come <strong>AI Augmentation</strong>: la padronanza degli strumenti generativi fa parte del mio metodo di lavoro quotidiano. Credo che il futuro dell'industria passi dalla capacità di unire <strong>competenze gestionali e tecniche</strong>.`;
-  
   const profiloEN = `I am a Management Engineer with a hybrid profile spanning <strong>industrial planning</strong>, continuous improvement, and software development applied to processes. I don't stop at analysis: <strong>I build the tools to actually improve things</strong>. I have designed digital solutions end-to-end — from web apps to remote hardware management — with a data-driven approach to operational efficiency. I use AI as <strong>AI Augmentation</strong>: mastering generative tools is part of my daily workflow. I believe the future of industry lies in combining <strong>management and technical skills</strong>.`;
 
   const projectDescIT = `Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione. Dalla scrittura del codice alla configurazione hardware, dalla gestione della sicurezza di rete alla distribuzione remota dei dispositivi — un progetto completo, costruito interamente in-house. Già operativo in produzione con operatori reali.`;
-  
   const projectDescEN = `End-to-end design and development of a digital ecosystem for production data collection. From writing the code to hardware configuration, from network security management to remote device deployment — a complete project, built entirely in-house. Live in production with real operators.`;
+
+  const fleetDescIT = `Interfaccia di monitoraggio flotta focalizzata sulla visualizzazione dei KPI. Progettata per centralizzare lo stato dei dispositivi (batteria, connettività, uptime), supportando la pianificazione degli interventi e l'ottimizzazione dell'efficienza operativa.`;
+  const fleetDescEN = `Fleet monitoring interface focused on KPI visualization. Designed to centralize device status (battery, connectivity, uptime), supporting maintenance planning and operational efficiency optimization.`;
 
   /* ── TRADUZIONE ── */
   function toggleLang() {
@@ -656,8 +634,7 @@
     document.getElementById('langBtn').textContent = currentLang === 'it' ? 'EN' : 'IT';
 
     document.querySelectorAll('[data-it]').forEach(el => {
-      // Salta gli elementi gestiti a parte
-      if(el.tagName.toLowerCase() === 'li' || el.id === 'profiloText' || el.id === 'projectDesc') return;
+      if(el.tagName.toLowerCase() === 'li' || el.id === 'profiloText' || el.id === 'projectDesc' || el.id === 'fleetDesc') return;
       
       const val = currentLang === 'it' ? el.dataset.it : el.dataset.en;
       if (val !== undefined && !el.innerHTML.includes('<')) {
@@ -667,16 +644,14 @@
       }
     });
 
-    // swap innerHTML elements
     document.getElementById('profiloText').innerHTML = currentLang === 'it' ? profiloIT : profiloEN;
     document.getElementById('projectDesc').textContent = currentLang === 'it' ? projectDescIT : projectDescEN;
+    document.getElementById('fleetDesc').textContent = currentLang === 'it' ? fleetDescIT : fleetDescEN;
 
-    // swap li elements con data-it/data-en
     document.querySelectorAll('li[data-it]').forEach(el => {
       el.textContent = currentLang === 'it' ? el.dataset.it : el.dataset.en;
     });
 
-    // swap del bottone mailto precompilato
     const mailtoBtn = document.getElementById('mailtoBtn');
     if(mailtoBtn) {
       mailtoBtn.href = currentLang === 'it' ? mailtoBtn.dataset.mailtoIt : mailtoBtn.dataset.mailtoEn;
@@ -687,11 +662,9 @@
   function toggleTheme() {
     const isLight = document.documentElement.classList.toggle('light');
     document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
-    // Persistenza tra visite
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   }
 
-  // Ripristino tema al caricamento
   if (localStorage.getItem('theme') === 'light') {
     document.documentElement.classList.add('light');
     document.getElementById('themeBtn').textContent = '🌙';
@@ -721,7 +694,6 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.skill-block').forEach(el => barObs.observe(el));
-
 </script>
 </body>
 </html>
