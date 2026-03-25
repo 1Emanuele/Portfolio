@@ -29,11 +29,17 @@ Ho progettato soluzioni digitali end-to-end — dalla web app alla gestione remo
 
 ## Progetto in evidenza
 
-**Sistema Web-Kiosk & Digital Signage Aziendale** Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione:
-- Web app (Python + HTML + SQL) su tablet in modalità kiosk
-- Sistema MDM per gestione e aggiornamento remoto della flotta dispositivi
-- Digital signage su Raspberry Pi 4 per comunicazione interna (Python + HTML)
-- Interfaccia UX-oriented pensata per gli operatori di produzione
+### 🛠️ [Sistema Web-Kiosk & Digital Signage Aziendale (Demo Interattiva)](https://1emanuele.github.io/NAVIS-Enterprise-Navigation-System-Demo/login.html)
+Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta dati in produzione:
+- **Web app** (Python + HTML + SQL) su tablet in modalità kiosk per l'eliminazione della carta.
+- **Sistema MDM** per gestione e aggiornamento remoto.
+- **Hardware:** Digital signage su Raspberry Pi 4 per la visualizzazione dei KPI in reparto.
+
+### 📱 [Fleet MDM — Portfolio Preview (Demo Interattiva)](https://github.com/1Emanuele/fleet-mdm-demo/login.html)
+Mockup interattivo di una piattaforma di monitoraggio flotte:
+- **Monitoraggio Operation**: Dashboard dinamica per lo stato dei dispositivi (batteria, uptime, connettività).
+- **Ottimizzazione Processi**: Sistema di filtri per l'identificazione rapida di anomalie e gestione eccezioni.
+- **Usabilità Industriale**: Interfaccia UX progettata per la massima efficienza in contesti operativi.
 
 ---
 
