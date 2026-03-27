@@ -35,7 +35,7 @@ Progettazione e sviluppo end-to-end di un ecosistema digitale per la raccolta da
 - **Sistema MDM** per gestione e aggiornamento remoto.
 - **Hardware:** Digital signage su Raspberry Pi 4 per la visualizzazione dei KPI in reparto.
 
-### 📱 [Fleet MDM — Portfolio Preview (Demo Interattiva)](https://github.com/1Emanuele/Fleet-MDM-Demo/login.html)
+### 📱 [Fleet MDM — Portfolio Preview (Demo Interattiva)](https://1emanuele.github.io/Fleet-MDM-Demo/login.html)
 Mockup interattivo di una piattaforma di monitoraggio flotte:
 - **Monitoraggio Operation**: Dashboard dinamica per lo stato dei dispositivi (batteria, uptime, connettività).
 - **Ottimizzazione Processi**: Sistema di filtri per l'identificazione rapida di anomalie e gestione eccezioni.
